@@ -217,7 +217,6 @@ export default {
     };
   },
   created() {
-    console.log(moment(), moment().format());
     //获取tree数据
     this.treeData = require("@/assets/treeData2.json");
     // 根据tree获取平级数组
@@ -283,7 +282,7 @@ export default {
           } else if (target.id == "delLabel") {
             // 删除
             that.itemNode = item;
-            this.delDialogVisible = true;
+            that.delDialogVisible = true;
           } else if (target.id == "dataInfoLabel") {
           } else if (target.id == "detailLabel") {
             // 修改
@@ -691,8 +690,6 @@ export default {
       if (model.depth != 0) {
         //根节点不能删除，这里写删除访问后台接口逻辑
         graph.removeChild(model.id);
-        //停止缩进动画，不加就像收起节点一样，视觉显示错误
-        graph.stopAnimate();
         Message.success("删除成功");
       }
     },
@@ -711,7 +708,7 @@ export default {
       this.renameDialogVisible = false;
     },
     delDialogClose() {
-      this.renameDialogVisible = false;
+      this.delDialogVisible = false;
     },
     dataInfoClose() {
       this.dataInfoDrawerVisible = false;
