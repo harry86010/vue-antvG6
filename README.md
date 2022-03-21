@@ -9,9 +9,9 @@ English | [简体中文](./README-zh.md)
 
 
 
-#antvG6 
+# antvG6 
 
-G6 is a graph visualization engine, which provides a set of basic mechanisms, including rendering, layout, analysis, interaction, animation, and other auxiliary tools. G6 aims to simplify the relationships, and help people to obtain the insight of relational data.
+> G6 is a graph visualization engine, which provides a set of basic mechanisms, including rendering, layout, analysis, interaction, animation, and other auxiliary tools. G6 aims to simplify the relationships, and help people to obtain the insight of relational data.
 
 https://github.com/antvis/G6
 
