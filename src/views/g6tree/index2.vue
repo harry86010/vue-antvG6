@@ -79,10 +79,9 @@
         </div>
       </div>
       <el-progress
-        stroke-width="100%"
         :text-inside="true"
         stroke-linecap="square"
-        :stroke-width="26"
+        stroke-width="26"
         :percentage="progress.percentage"
       ></el-progress>
     </el-col>
