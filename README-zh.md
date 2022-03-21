@@ -1,11 +1,18 @@
 在vue-admin-template框架下，做了个antvg6的多功能树结构图
 
+[English](./README.md) | 简体中文
+
 ![antvg6 tree图搜索节点](https://img-blog.csdnimg.cn/84521bbee628410d87b072b16ebb9fff.gif)
 ![antvg6 tree图显示时间，状态，导出](https://img-blog.csdnimg.cn/4926ee3888fc4e259f6233b32b944574.gif)
 ![antvg6 tree图新增和删除](https://img-blog.csdnimg.cn/4e04a728f6f04ed49063f6e5c965b957.gif)
 ![antvg6 tree图重命名和修改节点信息](https://img-blog.csdnimg.cn/0d6bc58d9ec8433696c9360ffb6d6eca.gif)
 
-[English](./README.md) | 简体中文
+
+# antvG6 
+
+G6 是一个图可视化引擎。它提供了图的绘制、布局、分析、交互、动画等图可视化的基础能力。旨在让关系变得透明，简单。让用户获得关系数据的 Insight。
+
+https://github.com/antvis/G6
 
 # vue-admin-template
 
