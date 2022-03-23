@@ -1,0 +1,176 @@
+{
+  "id": "1",
+  "dataType": "100",
+  "label": "董事会",
+  "conf": [
+    {
+      "label": "董事会成员",
+      "value": "王大拿 王二拿 王三拿"
+    }
+  ],
+  "children": [
+    {
+      "id": "2",
+      "dataType": "200",
+      "label": "总经理",
+      "conf": [
+        {
+          "label": "姓名",
+          "value": "刘大根儿"
+        }
+      ],
+      "children": [
+        {
+          "id": "3",
+          "dataType": "300",
+          "label": "副总经理",
+          "conf": [
+            {
+              "label": "姓名",
+              "value": "大聪明"
+            }
+          ],
+          "children": [
+            {
+              "id": "7",
+              "dataType": "400",
+              "label": "市场部",
+              "conf": [
+                {
+                  "label": "经理",
+                  "value": "牛利群"
+                }
+              ]
+            },
+            {
+              "id": "8",
+              "dataType": "400",
+              "label": "业务部",
+              "conf": [
+                {
+                  "label": "经理",
+                  "value": "郑乾"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "4",
+          "dataType": "300",
+          "label": "副总经理",
+          "conf": [
+            {
+              "label": "姓名",
+              "value": "大明白"
+            }
+          ],
+          "children": [
+            {
+              "id": "9",
+              "dataType": "400",
+              "label": "设计部",
+              "conf": [
+                {
+                  "label": "经理",
+                  "value": "任美丽"
+                }
+              ]
+            },
+            {
+              "id": "10",
+              "dataType": "400",
+              "label": "开发部",
+              "conf": [
+                {
+                  "label": "经理",
+                  "value": "步佳班"
+                }
+              ]
+            },
+            {
+              "id": "11",
+              "dataType": "400",
+              "label": "运维部",
+              "conf": [
+                {
+                  "label": "经理",
+                  "value": "杨功头"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "5",
+          "dataType": "300",
+          "label": "副总经理",
+          "conf": [
+            {
+              "label": "姓名",
+              "value": "大能耐"
+            }
+          ],
+          "children": [
+            {
+              "id": "13",
+              "dataType": "400",
+              "label": "客服部",
+              "conf": [
+                {
+                  "label": "经理",
+                  "value": "高大紧"
+                }
+              ]
+            },
+            {
+              "id": "14",
+              "dataType": "400",
+              "label": "行政部",
+              "conf": [
+                {
+                  "label": "经理",
+                  "value": "蒋公章"
+                }
+              ]
+            },
+            {
+              "id": "15",
+              "dataType": "400",
+              "label": "人力资源部",
+              "conf": [
+                {
+                  "label": "经理",
+                  "value": "钊仁才"
+                }
+              ]
+            },
+            {
+              "id": "12",
+              "dataType": "400",
+              "label": "财务部",
+              "conf": [
+                {
+                  "label": "经理",
+                  "value": "程有财"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "6",
+          "dataType": "300",
+          "label": "分公司",
+          "conf": [
+            {
+              "label": "分公司总经理",
+              "value": "赵老四"
+            }
+          ],
+          "children": []
+        }
+      ]
+    }
+  ]
+}
