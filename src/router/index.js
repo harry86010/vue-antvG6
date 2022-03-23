@@ -54,16 +54,33 @@ export const constantRoutes = [
       meta: { title: 'Dashboard', icon: 'dashboard' }
     }]
   },
-
   {
     path: '/g6tree',
     component: Layout,
     redirect: '/g6tree/index2',
+    name: 'G6tree',
+    meta: { title: 'G6tree', icon: 'dashboard' },
     children: [{
       path: 'index2',
-      name: 'G6tree',
+      name: 'G6tree2',
       component: () => import('@/views/g6tree/index2'),
-      meta: { title: 'G6tree', icon: 'dashboard' }
+      meta: { title: 'G6tree2', icon: 'dashboard' }
+    },{
+      path: 'index',
+      name: 'G6tree1',
+      component: () => import('@/views/g6tree/index'),
+      meta: { title: 'G6tree1', icon: 'dashboard' }
+    }]
+  },
+  {
+    path: '/g6dagre',
+    component: Layout,
+    redirect: '/g6dagre/index2',
+    children: [{
+      path: 'index2',
+      name: 'G6dagre',
+      component: () => import('@/views/g6dagre/index2'),
+      meta: { title: 'G6dagre', icon: 'dashboard' }
     }]
   },
   {
