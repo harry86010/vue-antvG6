@@ -1,321 +1,168 @@
 <template>
-<el-row :gutter="10" class="container">
-<div id="dagreDiv">
-</div>
-</el-row>
+  <el-row :gutter="10" class="container">
+    <el-col :span="2">
+      <el-button type="" @click="downloadImage">导出</el-button>
+    </el-col>
+    <el-col :span="24">
+      <div class="whr100" id="dataDiv"></div>
+    </el-col>
+  </el-row>
 </template>
 <script>
-import G6 from '@antv/g6';
-import insertCss from 'insert-css';
-
-// 我们用 insert-css 演示引入自定义样式
-// 推荐将样式添加到自己的样式文件中
-// 若拷贝官方代码，别忘了 npm install insert-css
+import G6 from "@antv/g6";
+import insertCss from "insert-css";
 insertCss(`
   .g6-tooltip {
-    border-radius: 6px;
-    font-size: 12px;
-    color: #fff;
-    background-color: #000;
-    padding: 2px 8px;
-    text-align: center;
+    max-width: 600px;
+    max-height: 500px;
+    overflow-y: auto;
+    position: absolute;
+    left: -150px;
+    z-index: 5;
+    border: 1px solid #e2e2e2;
+    border-radius: 4px;
+    font-size: 14px;
+    color: #545454;
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 20px 20px;
+    box-shadow: rgb(174, 174, 174) 0px 0px 10px;
+    text-align: justify;
+    text-justify: newspaper;
+    word-break: break-all;
+  }
+  .tooltip-header{
+    font-size:16px;
   }
 `);
-
-const data = {
-  nodes: [
-    {
-      id: '1',
-      dataType: 'alps',
-      name: 'alps_file1',
-      conf: [
-        {
-          label: 'conf',
-          value: 'pai_graph.conf',
-        },
-        {
-          label: 'dot',
-          value: 'pai_graph.dot',
-        },
-        {
-          label: 'init',
-          value: 'init.rc',
-        },
-      ],
-    },
-    {
-      id: '2',
-      dataType: 'alps',
-      name: 'alps_file2',
-      conf: [
-        {
-          label: 'conf',
-          value: 'pai_graph.conf',
-        },
-        {
-          label: 'dot',
-          value: 'pai_graph.dot',
-        },
-        {
-          label: 'init',
-          value: 'init.rc',
-        },
-      ],
-    },
-    {
-      id: '3',
-      dataType: 'alps',
-      name: 'alps_file3',
-      conf: [
-        {
-          label: 'conf',
-          value: 'pai_graph.conf',
-        },
-        {
-          label: 'dot',
-          value: 'pai_graph.dot',
-        },
-        {
-          label: 'init',
-          value: 'init.rc',
-        },
-      ],
-    },
-    {
-      id: '4',
-      dataType: 'sql',
-      name: 'sql_file1',
-      conf: [
-        {
-          label: 'conf',
-          value: 'pai_graph.conf',
-        },
-        {
-          label: 'dot',
-          value: 'pai_graph.dot',
-        },
-        {
-          label: 'init',
-          value: 'init.rc',
-        },
-      ],
-    },
-    {
-      id: '5',
-      dataType: 'sql',
-      name: 'sql_file2',
-      conf: [
-        {
-          label: 'conf',
-          value: 'pai_graph.conf',
-        },
-        {
-          label: 'dot',
-          value: 'pai_graph.dot',
-        },
-        {
-          label: 'init',
-          value: 'init.rc',
-        },
-      ],
-    },
-    {
-      id: '6',
-      dataType: 'feature_etl',
-      name: 'feature_etl_1',
-      conf: [
-        {
-          label: 'conf',
-          value: 'pai_graph.conf',
-        },
-        {
-          label: 'dot',
-          value: 'pai_graph.dot',
-        },
-        {
-          label: 'init',
-          value: 'init.rc',
-        },
-      ],
-    },
-    {
-      id: '7',
-      dataType: 'feature_etl',
-      name: 'feature_etl_1',
-      conf: [
-        {
-          label: 'conf',
-          value: 'pai_graph.conf',
-        },
-        {
-          label: 'dot',
-          value: 'pai_graph.dot',
-        },
-        {
-          label: 'init',
-          value: 'init.rc',
-        },
-      ],
-    },
-    {
-      id: '8',
-      dataType: 'feature_extractor',
-      name: 'feature_extractor',
-      conf: [
-        {
-          label: 'conf',
-          value: 'pai_graph.conf',
-        },
-        {
-          label: 'dot',
-          value: 'pai_graph.dot',
-        },
-        {
-          label: 'init',
-          value: 'init.rc',
-        },
-      ],
-    },
-  ],
-  edges: [
-    {
-      source: '1',
-      target: '2',
-    },
-    {
-      source: '1',
-      target: '3',
-    },
-    {
-      source: '2',
-      target: '4',
-    },
-    {
-      source: '3',
-      target: '4',
-    },
-    {
-      source: '4',
-      target: '5',
-    },
-    {
-      source: '5',
-      target: '6',
-    },
-    {
-      source: '6',
-      target: '7',
-    },
-    {
-      source: '6',
-      target: '8',
-    },
-  ],
+var graph = {};
+//根据节点状态颜色
+const dataTypeColor = {
+  100: "#EEBC20",
+  200: "#5BD8A6",
+  300: "#F46649",
 };
+export default {
+  name: "g6dagre",
+  data() {
+    return {
+      dagreData: [],
+    };
+  },
+  created() {
+    //获取json数据
+    this.dagreData = require("@/assets/dagreData2.json");
 
-G6.registerNode(
-  'sql',
-  {
-    drawShape(cfg, group) {
-      const rect = group.addShape('rect', {
-        attrs: {
-          x: -75,
-          y: -25,
-          width: 150,
-          height: 50,
-          radius: 10,
-          stroke: '#5B8FF9',
-          fill: '#C6E5FF',
-          lineWidth: 3,
-        },
-        name: 'rect-shape',
-      });
-      if (cfg.name) {
-        group.addShape('text', {
-          attrs: {
-            text: cfg.name,
-            x: 0,
-            y: 0,
-            fill: '#00287E',
-            fontSize: 14,
-            textAlign: 'center',
-            textBaseline: 'middle',
-            fontWeight: 'bold',
+    this.$nextTick(() => {
+      this.init();
+    });
+  },
+  methods: {
+    init() {
+      // 节点重定义
+      G6.registerNode(
+        "flow",
+        {
+          drawShape(cfg, group) {
+            const rect = group.addShape("rect", {
+              attrs: {
+                x: -75,
+                y: -25,
+                width: 150,
+                height: 50,
+                radius: 5,
+                stroke: "#5B8FF9",
+                fill: dataTypeColor[cfg.dataType],
+                lineWidth: 3,
+              },
+              name: "rect-shape",
+            });
+            if (cfg.name) {
+              group.addShape("text", {
+                attrs: {
+                  text: cfg.name,
+                  x: 0,
+                  y: 0,
+                  fill: "#00287E",
+                  fontSize: 14,
+                  textAlign: "center",
+                  textBaseline: "middle",
+                  fontWeight: "bold",
+                },
+                name: "text-shape",
+              });
+            }
+            return rect;
           },
-          name: 'text-shape',
-        });
-      }
-      return rect;
-    },
-  },
-  'single-node',
-);
-
-const container = document.getElementById('dagreDiv');
-const width = container.scrollWidth;
-const height = container.scrollHeight || 500;
-const graph = new G6.Graph({
-  container: 'container',
-  width,
-  height,
-  layout: {
-    type: 'dagre',
-    nodesepFunc: (d) => {
-      if (d.id === '3') {
-        return 500;
-      }
-      return 50;
-    },
-    ranksep: 70,
-    controlPoints: true,
-  },
-  defaultNode: {
-    type: 'sql',
-  },
-  defaultEdge: {
-    type: 'polyline',
-    style: {
-      radius: 20,
-      offset: 45,
-      endArrow: true,
-      lineWidth: 2,
-      stroke: '#C2C8D5',
-    },
-  },
-  nodeStateStyles: {
-    selected: {
-      stroke: '#d9d9d9',
-      fill: '#5394ef',
-    },
-  },
-  modes: {
-    default: [
-      'drag-canvas',
-      'zoom-canvas',
-      'click-select',
-      {
-        type: 'tooltip',
-        formatText(model) {
-          const cfg = model.conf;
-          const text = [];
-          cfg.forEach((row) => {
-            text.push(row.label + ':' + row.value + '<br>');
-          });
-          return text.join('\n');
         },
-        offset: 30,
-      },
-    ],
-  },
-  fitView: true,
-});
-graph.data(data);
-graph.render();
+        "single-node"
+      );
 
-if (typeof window !== 'undefined')
-  window.onresize = () => {
-    if (!graph || graph.get('destroyed')) return;
-    if (!container || !container.scrollWidth || !container.scrollHeight) return;
-    graph.changeSize(container.scrollWidth, container.scrollHeight);
-  };
+      const container = document.getElementById("dataDiv");
+      const width = container.scrollWidth;
+      const height = container.scrollHeight || 900;
+      graph = new G6.Graph({
+        container: "dataDiv",
+        width,
+        height,
+        defaultNode: {
+          type: "flow",
+        },
+        defaultEdge: {
+          type: "polyline",
+          style: {
+            radius: 5,
+            endArrow: true,
+            lineWidth: 2,
+            stroke: "#C2C8D5",
+          },
+        },
+        nodeStateStyles: {
+          selected: {
+            stroke: "#d9d9d9",
+            fill: "#5394ef",
+          },
+        },
+        modes: {
+          default: [
+            "drag-canvas",
+            "zoom-canvas",
+            "click-select",
+            {
+              type: "tooltip",
+              formatText(model) {
+                const cfg = model.conf;
+                const text = [];
+                cfg.forEach((row) => {
+                  text.push(row.label + ":" + row.value + "<br>");
+                });
+                return text.join("\n");
+              },
+              offset: 10,
+            },
+          ],
+        },
+      });
+      graph.read(this.dagreData);
+      graph.fitView();
+
+      if (typeof window !== "undefined")
+        window.onresize = () => {
+          if (!graph || graph.get("destroyed")) return;
+          if (!container || !container.scrollWidth || !container.scrollHeight) return;
+          graph.changeSize(container.scrollWidth, container.scrollHeight);
+        };
+    },
+    downloadImage() {
+      graph.downloadFullImage(Math.random().toString(16));
+    },
+  },
+};
 </script>
+<style rel="stylesheet/scss" lang="scss" scoped>
+.whr100 {
+  height: 100%;
+  width: 100%;
+  position: relative;
+}
+</style>
+
